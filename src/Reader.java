@@ -11,6 +11,7 @@ public class Reader {
 
             while (scan.hasNextLine()) {
                 String linea = scan.nextLine();
+                System.out.println(linea);
                 lineas.add(linea);
             }
             scan.close();
