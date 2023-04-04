@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.PriorityQueue;
 
 public class Controller {
 
@@ -32,6 +33,25 @@ public class Controller {
         }
         while (!pq.isEmpty()) {
             int processRemoved = pq.remove();
+            for (int i = 0;i<procesos.size();i++){
+                try{
+                    if(procesos.get(i).getPR() == processRemoved){
+                        System.out.println("Process name: "+procesos.get(i).getProcessName()+" User Name: "+procesos.get(i).getUserName()+" NI: "+procesos.get(i).getNI()+" PR: "+processRemoved);
+                        break;
+                    }
+                }catch (Exception e){
+                }
+            }
+        }
+    }
+
+    public static void HeapJava(ArrayList<Proceso> procesos){
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        for (int i = 0; i < procesos.size(); i++) {
+            minHeap.offer(procesos.get(i).getPR());
+        }
+        while (!minHeap.isEmpty()) {
+            int processRemoved = minHeap.remove();
             for (int i = 0;i<procesos.size();i++){
                 try{
                     if(procesos.get(i).getPR() == processRemoved){

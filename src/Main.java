@@ -23,6 +23,8 @@ public class Main {
                     Controller.runHeap(procesosP);
                     break;
                 case "2":
+                    System.out.println("Implementando HEAP con JAVACOLLECTIONS");
+                    Controller.HeapJava(procesosP);
                     break;
                 case "3":
                     System.out.println("Adios");
