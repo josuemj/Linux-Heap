@@ -6,7 +6,7 @@ public class Reader {
         ArrayList<String> lineas = new ArrayList<>();
 
         try {
-            File archivo = new File("diccionario.txt");
+            File archivo = new File("procesos.txt");
             Scanner scan = new Scanner(archivo);
 
             while (scan.hasNextLine()) {
