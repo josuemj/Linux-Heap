@@ -1,3 +1,4 @@
+import java.security.spec.RSAOtherPrimeInfo;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
@@ -33,17 +34,14 @@ public class Controller {
         }
         while (!pq.isEmpty()) {
             int processRemoved = pq.remove();
-            for (int i = 0;i<procesos.size();i++){
-                try{
-                    if(procesos.get(i).getPR() == processRemoved){
-                        System.out.println("Process name: "+procesos.get(i).getProcessName()+" User Name: "+procesos.get(i).getUserName()+" NI: "+procesos.get(i).getNI()+" PR: "+processRemoved);
-                        break;
-                    }
-                }catch (Exception e){
-                }
-            }
+            showProcessinfo(procesos,processRemoved);
         }
     }
+
+    /**
+     * Realizar la implementacion del HEAP handmade
+     * @param procesos
+     */
 
     public static void HeapJava(ArrayList<Proceso> procesos){
         PriorityQueue<Integer> minHeap = new PriorityQueue<>();
@@ -52,16 +50,25 @@ public class Controller {
         }
         while (!minHeap.isEmpty()) {
             int processRemoved = minHeap.remove();
-            for (int i = 0;i<procesos.size();i++){
-                try{
-                    if(procesos.get(i).getPR() == processRemoved){
-                        System.out.println("Process name: "+procesos.get(i).getProcessName()+" User Name: "+procesos.get(i).getUserName()+" NI: "+procesos.get(i).getNI()+" PR: "+processRemoved);
-                        break;
-                    }
-                }catch (Exception e){
-                }
-            }
+            showProcessinfo(procesos,processRemoved);
         }
     }
 
+    /**
+     * Muestra el procesos dado el PR
+     * @param procesos
+     * @param PR
+     */
+    public static void showProcessinfo(ArrayList<Proceso> procesos,int PR){
+        for (int i = 0; i < procesos.size(); i++) {
+            if(procesos.get(i).getPR()==PR){
+                System.out.println("\n==============");
+                System.out.println("P name: "+procesos.get(i).getProcessName());
+                System.out.println("U name: "+procesos.get(i).getUserName());
+                System.out.println("NIC : "+procesos.get(i).getNI());
+                System.out.println("PR: "+procesos.get(i).getPR());
+                procesos.remove(procesos.get(i));
+            }
+        }
+    }
 }
