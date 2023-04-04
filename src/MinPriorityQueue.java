@@ -1,54 +1,68 @@
-import java.util.Arrays;
+import java.util.ArrayList;
 
-public class MinPriorityQueue <E extends Comparable<E>> {
-    private E[] heap;
+public class MinPriorityQueue <T extends Comparable<T>> {
+    private ArrayList<T> heap;
     private int size;
 
     public MinPriorityQueue(int capacity) {
-        heap = (E[]) new Comparable[capacity + 1]; // Reservamos heap[0] como buffer
+        heap = new ArrayList<>(capacity);
         size = 0;
+    }
+
+    public void add(T item) {
+        heap.add(item);
+        size++;
+        siftUp(size - 1);
+    }
+
+    public T remove() {
+        if (size == 0) {
+            throw new IllegalStateException("La cola de prioridad está vacía.");
+        }
+        T minItem = heap.get(0);
+        heap.set(0, heap.get(size - 1));
+        heap.remove(size - 1);
+        size--;
+        siftDown(0);
+        return minItem;
     }
 
     public boolean isEmpty() {
         return size == 0;
     }
 
-    public void add(E element) {
-        if (size >= heap.length - 1) {
-            heap = Arrays.copyOf(heap, heap.length * 2);
-        }
-
-        heap[++size] = element;
-        int currentIndex = size;
-        while (heap[currentIndex].compareTo(heap[currentIndex/2]) < 0 && currentIndex != 1) {
-            E tmp = heap[currentIndex];
-            heap[currentIndex] = heap[currentIndex/2];
-            heap[currentIndex/2] = tmp;
-            currentIndex = currentIndex/2;
+    private void siftUp(int index) {
+        int parentIndex = (index - 1) / 2;
+        while (index > 0 && heap.get(index).compareTo(heap.get(parentIndex)) < 0) {
+            swap(index, parentIndex);
+            index = parentIndex;
+            parentIndex = (index - 1) / 2;
         }
     }
 
-    public E remove() {
-        E result = heap[1];
-        heap[1] = heap[size];
-        heap[size--] = null;
+    private void siftDown(int index) {
+        int leftChildIndex = index * 2 + 1;
+        int rightChildIndex = index * 2 + 2;
+        int minIndex = index;
 
-        int currentIndex = 1;
-        while (2*currentIndex <= size) {
-            int childIndex = 2*currentIndex;
-            if (childIndex < size && heap[childIndex].compareTo(heap[childIndex+1]) > 0) {
-                childIndex++;
-            }
-            if (heap[currentIndex].compareTo(heap[childIndex]) > 0) {
-                E tmp = heap[currentIndex];
-                heap[currentIndex] = heap[childIndex];
-                heap[childIndex] = tmp;
-                currentIndex = childIndex;
-            } else {
-                break;
-            }
+        if (leftChildIndex < size && heap.get(leftChildIndex).compareTo(heap.get(minIndex)) < 0) {
+            minIndex = leftChildIndex;
         }
-        return result;
+
+        if (rightChildIndex < size && heap.get(rightChildIndex).compareTo(heap.get(minIndex)) < 0) {
+            minIndex = rightChildIndex;
+        }
+
+        if (minIndex != index) {
+            swap(index, minIndex);
+            siftDown(minIndex);
+        }
+    }
+
+    private void swap(int index1, int index2) {
+        T temp = heap.get(index1);
+        heap.set(index1, heap.get(index2));
+        heap.set(index2, temp);
     }
 }
 

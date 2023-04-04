@@ -10,7 +10,6 @@ public class Controller {
     public static ArrayList<Proceso> getProcedures(ArrayList<String> procesos){
         ArrayList<Proceso> procedures = new ArrayList<Proceso>();
         for(int i = 0;i<procesos.size();i++){
-            System.out.println(procesos.get(i));
             String[] separados = procesos.get(i).split(",");
             try{
                 int NI = Integer.parseInt(separados[2]);
@@ -23,13 +22,25 @@ public class Controller {
         return procedures;
     }
 
-    public static void iterator(ArrayList<Proceso> procesos){
-        for(int i = 0;i<procesos.size();i++){
-            System.out.println("\n==============================");
-            System.out.println("Nombre del procesos: "+procesos.get(i).getProcessName());
-            System.out.println("Nombre del Usuario: "+procesos.get(i).getUserName());
-            System.out.println("NICE: "+procesos.get(i).getNI());
-            System.out.println("PR: "+procesos.get(i).getPR());
+    /**
+     * Correr el sistema en base a vector HEAP.
+     */
+    public static void runHeap(ArrayList<Proceso> procesos) {
+        MinPriorityQueue<Integer> pq = new MinPriorityQueue<>(procesos.size());
+        for (int i = 0; i < procesos.size(); i++) {
+            pq.add(procesos.get(i).getPR());
+        }
+        while (!pq.isEmpty()) {
+            int processRemoved = pq.remove();
+            for (int i = 0;i<procesos.size();i++){
+                try{
+                    if(procesos.get(i).getPR() == processRemoved){
+                        System.out.println("Process name: "+procesos.get(i).getProcessName()+" User Name: "+procesos.get(i).getUserName()+" NI: "+procesos.get(i).getNI()+" PR: "+processRemoved);
+                        break;
+                    }
+                }catch (Exception e){
+                }
+            }
         }
     }
 
